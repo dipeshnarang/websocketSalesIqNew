@@ -148,7 +148,7 @@ function resetGraphData(){
 
 }
 
-schedule.scheduleJob('30 6 * * *',function(){
+schedule.scheduleJob('30 18 * * *',function(){
     departments=getDepartments()
     departments.forEach((dep)=>{
         dep.barGraph=[]

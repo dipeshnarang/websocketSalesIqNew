@@ -43,7 +43,7 @@ function IST(){
   const date=new Date()
   let h=date.getHours()
   let m=date.getMinutes()
-  if(h>18 && m>30){
+  if((h==18 && m>30) || h>18){
       date.setHours(18,30,0)
   }else{
       date.setDate(date.getDate()-1)
