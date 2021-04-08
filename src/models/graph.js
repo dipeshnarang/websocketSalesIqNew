@@ -133,7 +133,7 @@ function generateGraphDataOnStartup(){
         let sql='select department.ID, COUNT(chat.DEPT_ID) as DEPT_CHATS from department left join' +
             ' (select * from chat where start_time >'+begin+' and start_time <'+end + ' ) chat on department.ID=chat.DEPT_ID  group by department.ID;'
         
-        queryDb(sql,endTime.getTime().toString(),function(err, result) {
+        queryDb(sql,endTime.toString(),function(err, result) {
             if (err) {
                 return console.log(err)
             }
