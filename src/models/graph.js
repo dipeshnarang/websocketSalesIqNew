@@ -117,38 +117,82 @@ schedule.scheduleJob('*/30 * * * *',function(){
 // })
 
 
-function generateGraphDataOnStartup(){
+async function generateGraphDataOnStartup(){
     let departments=getDepartments()
     let startTime=IST()
     let endTime=startTime+1800000
     const till=new Date()
-    const endTimes=[]
 
-    while(endTime<till.getTime()){
-        let begin=startTime
-        console.log("BEGIN: "+startTime)
-        let end=endTime
-        console.log("END:   "+endTime)
+    // while(endTime<till.getTime()){
+    //     let begin=startTime
+    //     console.log("BEGIN: "+startTime)
+    //     let end=endTime
+    //     console.log("END:   "+endTime)
 
-        let sql='select department.ID, COUNT(chat.DEPT_ID) as DEPT_CHATS from department left join' +
-            ' (select * from chat where start_time >'+begin+' and start_time <'+end + ' ) chat on department.ID=chat.DEPT_ID  group by department.ID;'
+    //     let sql='select department.ID, COUNT(chat.DEPT_ID) as DEPT_CHATS from department left join' +
+    //         ' (select * from chat where start_time >'+begin+' and start_time <'+end + ' ) chat on department.ID=chat.DEPT_ID  group by department.ID;'
         
-        queryDb(sql,endTime.toString(),function(err, result) {
-            if (err) {
-                return console.log(err)
-            }
-            console.log("Graph Data on Startup--------------------------------------------")
-            console.log(result)
+    //     queryDb(sql,endTime.toString(),function(err, result) {
+    //         if (err) {
+    //             return console.log(err)
+    //         }
+    //         console.log("Graph Data on Startup--------------------------------------------")
+    //         console.log(result)
 
 
-            let time = new Date(parseInt(result.endTime))
-            console.log(time)
+    //         let time = new Date(parseInt(result.endTime))
+    //         console.log(time)
+    //         time.setMinutes(time.getMinutes()+330)
+    //         let hour = time.getHours()
+    //         console.log("HOUR:" + hour)
+    //         let minutes = time.getMinutes()
+    //         console.log("MINTUE:" + minutes)
+    //         result.data.forEach((row) => {
+    //             let dep = departments.find((department) => {
+    //                 return department.id == row.ID
+    //             })
+    //             let halfHourData = [[]]
+
+    //             halfHourData[0].push(hour, minutes, 0)
+    //             halfHourData.push(row.DEPT_CHATS)
+    //             if (dep) {
+    //                 dep.barGraph.push(halfHourData)
+    //             }
+    //         })
+
+    //     })
+        
+    //     startTime+=1800000
+    //     endTime+=1800000
+        
+
+    
+    // }
+
+    
+    let conn
+    try{
+        conn=await db.connectionPool.getConnection()
+        while(endTime<till.getTime()){
+
+            let begin=startTime
+            console.log("BEGIN: "+startTime)
+            let end=endTime
+            console.log("END:   "+endTime)
+
+            let sql='select department.ID, COUNT(chat.DEPT_ID) as DEPT_CHATS from department left join' +
+            ' (select * from chat where start_time >'+begin+' and start_time <'+end + ' ) chat on department.ID=chat.DEPT_ID  group by department.ID;'
+
+            const result=await conn.query(sql)
+            // console.log("END TIME INSIDE WHILE LOOP: "+endTime)
+            const time=new Date(endTime)
             time.setMinutes(time.getMinutes()+330)
             let hour = time.getHours()
             console.log("HOUR:" + hour)
             let minutes = time.getMinutes()
             console.log("MINTUE:" + minutes)
-            result.data.forEach((row) => {
+
+            result.forEach((row) => {
                 let dep = departments.find((department) => {
                     return department.id == row.ID
                 })
@@ -161,20 +205,21 @@ function generateGraphDataOnStartup(){
                 }
             })
 
-        })
-        startTime+=1800000
-        endTime+=1800000
-        
 
-    
+            console.log(result)
+            startTime+=1800000
+            endTime+=1800000
+        }
+        
+    }catch(e){
+        console.log(e)
+    }finally{
+        if(conn){
+            conn.release()
+        }
     }
 }
 
 setTimeout(function(){
     generateGraphDataOnStartup()
 },2000)
-
-
-
-
-
