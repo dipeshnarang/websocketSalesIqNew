@@ -65,5 +65,5 @@ module.exports={
     calculateActiveTime,
     convertToReadableTime,
     IST,
-    ISTGraphResetTime()
+    ISTGraphResetTime
 }
