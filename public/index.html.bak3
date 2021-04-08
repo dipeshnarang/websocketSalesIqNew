@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel= "stylesheet" type= "text/css" href= "../static/css/bootstrap.min.css">
+    <link rel= "stylesheet" type= "text/css" href= "../static/css/default.css">
+    <link rel= "stylesheet" type= "text/css" href= "../static/css/sidebar-nav.min.css">
+    <link rel= "stylesheet" type= "text/css" href= "../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    
+  <style>
+
+      body {
+        margin: 0;
+        font-family: "Lato", sans-serif;
+        background-color: #fff;
+      }
+      
+      div.content {
+        margin-left: 200px;
+        padding: 1px 16px;
+        height: 1000px;
+      } 
+      /*margin: 25px 0;*/
+      #t01{
+        border-collapse: collapse;
+
+        margin: auto;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      }
+      #t01 thead th {
+        background-color:#9999FF;
+        color:  white;
+        text-align: center;
+        font-size:20px;
+      }
+      #t01 thead th{
+      	color:black;
+      }
+      #t01 tr {
+        border-bottom: 1px solid #9999FF;
+        background-color: #f3f3f3;
+        font-size:20px;
+      }
+      
+      #t01 th,
+      #t01 td {
+        padding: 12px 15px;
+        text-align: center;
+      }   
+    @media screen and (max-width: 700px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .sidebar a {
+        float: left;
+      }
+      div.content {
+        margin-left: 0;
+      }
+    } 
+    @media screen and (max-width: 400px) {
+      .sidebar a {
+        text-align: center;
+        float: none;
+      }
+    }   
+  @keyframes bounce {
+      0%, 20%, 60%, 100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+      }
+      40% {
+        -webkit-transform: translateY(-20px);
+        transform: translateY(-20px);
+      }
+      80% {
+        -webkit-transform: translateY(-10px);
+        transform: translateY(-10px);
+      }
+    }
+    .form-container {
+      max-width: 300px;
+      height: 350px;
+      width: 250px;
+      padding: 10px;
+      background-color: rgb(235, 221, 221);
+      color: #0a0909;
+      border-style: ridge;
+      border-radius: 20px;
+      overflow:auto;
+      text-align: justify;
+    }
+    .notavailabledot {
+      height: 12px;
+      width: 12px;
+      background-color: rgb(185, 6, 6);
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    .availabledot {
+      height: 12px;
+      width: 12px;
+      background-color: rgb(20, 141, 5);
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    .form-container .btn:hover, .open-button:hover {
+      opacity: 1;
+    }
+    .heading{
+        text-decoration: underline;
+        text-decoration-thickness: 5px;
+    }
+    #chart_div::-webkit-scrollbar {
+      display: none;
+    }
+    .container-fluid{
+      padding-left:25px;
+      padding-right:25px;
+      padding-bottom:10px
+    }
+    
+    
+    //CSS for Dropdown Menu
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  //position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+
+    
+  </style>
+</head>
+
+<body onload="drwaa('Hello')">
+	
+ 
+    
+  <div class="page-wrapper">   
+    <div class="container-fluid" style="background-color: aliceblue">   
+        <div class="row bg-title" style="background-color: #333;">
+
+          <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title" style="color:white;float:left;">REAL TIME DASHBOARD</h4>
+                    </div>
+                        <i class="fa fa-user" style="font-size:30px;color:red;float:right;"></i>
+        <div class="dropdown" style="float:right;">
+
+
+<form >
+  <label for="cars">Choose a car:</label>
+  <select id="cars" name="cars" onchange="changeFunc();">
+  </select>
+</form>
+
+
+</div>
+        </div>   
+        
+      
+            
+                <div class="row">
+                    <div class="col-6 col-md-4">
+                        <div class="white-box" style="background:-webkit-linear-gradient(110deg, lightyellow , #f5e23d )" >
+                            <h1 class="box-title"><strong>Total Chats : Today</strong></h1>
+                            <h3 id="totalChatsToday"><strong></strong></h3>
+                            <i class="fa fa-comment" style="float:right;font-size:26px"></i>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="white-box" style="background:-webkit-linear-gradient(110deg, lightblue ,#3366FF )" >
+                            <h1 class="box-title"><strong>Chat duration : Today</strong></h1>
+                            <h3 id="totalChatDurationToday"></h3>
+                            <i class="fa fa-calendar-check-o" style="float:right;font-size:26px"></i>
+                            <br>
+                          </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="white-box" style="background:-webkit-linear-gradient(110deg, lightgreen , #00cc00 )" >
+                            <h1 class="box-title"><strong>Ongoing Chats</strong></h1>
+                            <h3 id="ongoingChats"></h3>
+                            <i class="fa fa-comments-o" style="float:right;font-size:26px"></i>
+                            <br>
+                          </div>
+                    </div>  
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="white-box">
+                              <h3 class="box-title"><strong>Operator Status</strong></h3>   
+                              <div id="piechart"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-8">
+                        <div class="white-box">
+                            <h3 class="box-title"><strong>Chat Tracker</strong></h3>
+                            <div id="chart_div" style="overflow-x: scroll"></div>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="col-xs-14 col-md-12">
+                      <div class="white-box">
+                        <div style="overflow-x:auto;">
+                          <table id="t01" >
+                            <thead>
+                              <th>Name</th>
+                              <th>Status</th>  
+                              <th>Ongoing chats </th>
+                              <th>Chats Attended</th>
+                              <th>Total Duration</th>
+                              <th>Chats Owned</th>  
+                            </thead>
+                        
+                            
+                          </table>
+                        </div>
+                      </div>
+                    </div>  
+                </div> 
+
+            </div>
+      </div>
+
+
+<script src="socket.io/socket.io.js"></script>
+  <script src="js/socket.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+    function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+    }
+  </script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    function drwaa(x)
+    {
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(function() { drawChart(x); });
+        google.charts.load('current', {packages: ['corechart', 'line']});
+        google.charts.setOnLoadCallback(drawCurveTypes);
+    }
+  </script>
+  <script type="text/javascript">
+    function drawChart(x) {
+      console.log(x);
+      var data = google.visualization.arrayToDataTable([
+      ['Status', 'No. of Agents'],
+      ['Available', 1],
+      ['Busy', 2],
+      ]);
+      var options = {'width':330, 'height':290 ,'colors':['#00CC33','FF3333'],'is3D':true, 'pieHole':0.2,'fontSize':11};
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(data, options);
+   }
+    function drawCurveTypes() {
+     var data = new google.visualization.DataTable();
+     data.addColumn('timeofday', 'Time of Day');
+     data.addColumn('number', 'Total number of Chats');
+
+     data.addRows([
+        [[8, 30, 45], 5],
+        [[9, 0, 0], 10],
+        [[10, 0, 0, 0], 12],
+        [[10, 45, 0, 0], 13],
+        [[11, 0, 0, 0], 15],
+        [[12, 15, 45, 0], 20],
+        [[13, 0, 0, 0], 22],
+        [[14, 30, 0, 0], 25],
+        [[15, 12, 0, 0], 30],
+        [[16, 45, 0], 32],
+        [[16, 59, 0], 42]
+      ]);
+     var options = {
+        'width':700, 
+        'height':291,
+         animation:{
+                        startup:true,
+                        duration: 1000,
+                        easing: 'in',
+                      },
+         vAxis: {
+                       title:"Number of chats"
+                      },
+                      hAxis: {
+                       title:"Time duration"
+                      },
+     };
+     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+   }
+  </script>
+
+
+<script>
+// var socket = io();
+ socket.on('message',function(data) {
+	appendData(data);
+      });		
+        function appendData(data) {
+	var table = document.getElementById("t01");
+var i = 1;
+var j=0;
+var row = 1;
+var chatsCompleted = [];
+var name = [];
+var ongoingChat = [];
+
+var status = [];
+var totalActiveTime = [];
+var deptName = [];
+
+
+for (item in data)
+{
+	deptName[j]=data[item].name;
+	j=j+1;
+}
+var x = document.getElementById("cars").length;
+if(x < deptName.length)
+{
+	for (j=0;j<deptName.length;j++)
+	{
+		var x = document.getElementById("cars");
+		var option = document.createElement("option");
+		option.text = deptName[j];
+		x.add(option, x[0]);
+	}
+}
+console.log("AAAAAAAAAAAAAAAAAAAAA"+ localStorage.getItem("lastSelection"));
+if(localStorage.getItem("lastSelection") !=null)
+{
+document.getElementById("cars").value = localStorage.getItem("lastSelection");
+}
+j=0;
+
+var totalChatsToday = "";
+var totalChatDurationToday = "";
+var ongoingChats = "";
+
+
+for (item in data) 
+{
+	var x = document.getElementById("cars").value;
+ console.log("this is seleted"+x);
+	if(data[item].name == x)
+	{
+    console.log("item"+item);
+		totalChatsToday = data[item].completedChats;
+		totalChatDurationToday = "NA";
+		ongoingChats = data[item].ongoingChats;
+		for(subitem in data[item].associatedOperators)
+		{
+			row = row + 1;
+			chatsCompleted[j]=data[item].associatedOperators[subitem].chatsCompleted;
+			name[j]=data[item].associatedOperators[subitem].name;
+			ongoingChat[j]=data[item].associatedOperators[subitem].ongoingChats;
+      if(data[item].associatedOperators[subitem].status==3){
+      status[j]="busy";
+      }
+      else{
+      status[j]="available";
+      }
+			
+			totalActiveTime[j]=data[item].associatedOperators[subitem].totalActiveTime;
+			j=j+1;
+		}
+   
+	}
+}
+
+document.getElementById("totalChatsToday").innerHTML = totalChatsToday;
+document.getElementById("totalChatDurationToday").innerHTML = totalChatDurationToday;
+document.getElementById("ongoingChats").innerHTML = ongoingChats;
+
+var rowCount = document.getElementById('t01').rows.length;
+console.log(rowCount + totalChatsToday);
+console.log(row);
+
+var diff = row-rowCount;
+
+if (diff > 0)
+{
+	addRow(diff);
+}
+else
+{
+	deleteRow(diff);
+}
+renderData(row);
+
+function addRow(diff)
+{
+	for (i=0;i<diff;i++)
+	{
+		console.log("aaaaaaaaa");
+		var row = table.insertRow(1);
+		var cell1 = row.insertCell(0);
+		var cell2 = row.insertCell(1);
+		var cell3 = row.insertCell(2);
+		var cell4 = row.insertCell(3);
+		var cell5 = row.insertCell(4);
+   var cell6 = row.insertCell(5);
+	}
+}
+function deleteRow(diff)
+{
+	for (i=0;i<Math.abs(diff);i++)
+	{
+		document.getElementById("t01").deleteRow(1);
+	}
+}
+function renderData(row)
+{
+	for (var i = 1; i < row; i++)
+	{
+		for (var j = 0; j < 5; j++)
+		{
+			var x = document.getElementById("t01").rows[i].cells;
+			x[0].innerHTML = name[i-1];
+			x[1].innerHTML = status[i-1];
+			x[2].innerHTML = ongoingChat[i-1];
+			x[3].innerHTML = chatsCompleted[i-1];
+			x[4].innerHTML = totalActiveTime[i-1];
+      x[5].innerHTML = chatsCompleted[i-1];
+    		}
+	}
+}
+
+
+
+
+
+var x = document.getElementById("cars").value;
+// Store
+//sessionStorage.setItem("lastSelection", x);
+console.log(x+ "11111111111111111111111111111");
+
+
+}
+
+function changeFunc()
+{
+var x = document.getElementById("cars").value;
+// Store
+localStorage.setItem("lastSelection", x);
+console.log(x);
+
+ 
+
+//location.reload();
+// Retrieve
+if(localStorage.getItem("lastSelection")!=null)
+{
+console.log(document.getElementById("cars").value = localStorage.getItem("lastSelection"));
+document.getElementById("cars").value = localStorage.getItem("lastSelection");
+}
+}
+</script>
+</body>
+</html>
+
+</body>
+</html>
