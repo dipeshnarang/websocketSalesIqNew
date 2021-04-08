@@ -1,7 +1,7 @@
 const schedule=require('node-schedule')
 const db=require('./../databaseConnection/mariadb')
 const {getDepartments}=require('./department')
-const {IST}=require('./../helperFunction/helperFunction')
+const {IST, ISTGraphResetTime }=require('./../helperFunction/helperFunction')
 
 class GraphObject{
     constructor(deptId,obj){
@@ -143,6 +143,17 @@ async function generateGraphDataOnStartup(){
         }
     }
 }
+
+function resetGraphData(){
+
+}
+
+schedule.scheduleJob('30 6 * * *',function(){
+    departments=getDepartments()
+    departments.forEach((dep)=>{
+        dep.barGraph=[]
+    })
+})
 
 setTimeout(function(){
     generateGraphDataOnStartup()

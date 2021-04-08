@@ -52,9 +52,18 @@ function IST(){
   return date.getTime()
 }
 
+function ISTGraphResetTime(){
+  return{
+    hours:6,
+    min:30
+  }
+
+}
+
 module.exports={
     merge,
     calculateActiveTime,
     convertToReadableTime,
-    IST
+    IST,
+    ISTGraphResetTime()
 }
