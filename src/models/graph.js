@@ -1,6 +1,7 @@
 const schedule=require('node-schedule')
 const db=require('./../databaseConnection/mariadb')
 const {getDepartments}=require('./department')
+const {IST}=require('./../helperFunction/helperFunction')
 
 class GraphObject{
     constructor(deptId,obj){
@@ -118,17 +119,16 @@ schedule.scheduleJob('*/30 * * * *',function(){
 
 function generateGraphDataOnStartup(){
     let departments=getDepartments()
-    const startTime=new Date()
-    const endTime=new Date()
-    startTime.setMinutes(startTime.getMinutes()-1440)
-    endTime.setMinutes(endTime.getMinutes()-1410)
+    let startTime=IST()
+    let endTime=startTime+1800000
+    const till=new Date()
     const endTimes=[]
 
-    for(i=1;i<49;i++){
-        let begin=startTime.getTime()
-        console.log("BEGIN: "+startTime.toLocaleString())
-        let end=endTime.getTime()
-        console.log("END:   "+endTime.toLocaleString())
+    while(endTime<till.getTime()){
+        let begin=startTime
+        console.log("BEGIN: "+startTime)
+        let end=endTime
+        console.log("END:   "+endTime)
 
         let sql='select department.ID, COUNT(chat.DEPT_ID) as DEPT_CHATS from department left join' +
             ' (select * from chat where start_time >'+begin+' and start_time <'+end + ' ) chat on department.ID=chat.DEPT_ID  group by department.ID;'
@@ -162,8 +162,8 @@ function generateGraphDataOnStartup(){
             })
 
         })
-        startTime.setMinutes(startTime.getMinutes()+30)
-        endTime.setMinutes(endTime.getMinutes()+30)
+        startTime+=1800000
+        endTime+=1800000
         
 
     
